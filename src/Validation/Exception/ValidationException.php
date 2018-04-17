@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Randock\Ddd\Validation\Exception;
 
-use Randock\Ddd\Validator\ValidationError;
+use Randock\Ddd\Validation\ValidationError;
 
 class ValidationException extends \Exception
 {
