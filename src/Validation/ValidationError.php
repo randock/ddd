@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Randock\Ddd\Domain\Shared\Validation;
+namespace Randock\Ddd\Validation;
 
 class ValidationError
 {

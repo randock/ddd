@@ -7,9 +7,8 @@ namespace Randock\Ddd\Validation;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
-use Randock\Ddd\Domain\Shared\Validation\ValidationError;
+use Randock\Ddd\Validation\Exception\ValidationException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Randock\Ddd\Domain\Shared\Validation\Exception\ValidationException;
 
 abstract class AbstractValidator
 {
