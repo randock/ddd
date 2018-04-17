@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Randock\Ddd\Domain\Shared\Validation\Exception;
+namespace Randock\Ddd\Validation\Exception;
 
-use Randock\Ddd\Domain\Shared\Validation\ValidationError;
+use Randock\Ddd\Validator\ValidationError;
 
 class ValidationException extends \Exception
 {

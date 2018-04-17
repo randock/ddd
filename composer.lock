@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "63af98bdbd994d57bc81fa7b69b199bd",
+    "content-hash": "d99264a8bb014f340e2e10490530e0e1",
     "packages": [
         {
             "name": "bornfreee/tactician-domain-events",
@@ -1792,6 +1792,28 @@
             "time": "2017-06-30T09:13:00+00:00"
         },
         {
+            "name": "randock/build",
+            "version": "dev-symfony4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/randock/build.git",
+                "reference": "1e17a13b7cfbb76128726b4e56978b64f90323d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/randock/build/zipball/1e17a13b7cfbb76128726b4e56978b64f90323d6",
+                "reference": "1e17a13b7cfbb76128726b4e56978b64f90323d6",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Randock Build",
+            "time": "2018-03-31T22:21:53+00:00"
+        },
+        {
             "name": "sebastian/code-unit-reverse-lookup",
             "version": "1.0.1",
             "source": {
@@ -2357,7 +2379,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "randock/build": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
