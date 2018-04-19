@@ -59,7 +59,7 @@ abstract class AbstractWorkflow
     /**
      * @throws WorkflowException
      */
-    private function guardSchemaTransitions()
+    private static function guardSchemaTransitions()
     {
         foreach (static::getTransitions() as $transition) {
             if (!is_array($transition)) {
@@ -84,7 +84,7 @@ abstract class AbstractWorkflow
      *
      * @throws WorkflowException
      */
-    private function guardTransition(string $transition, array $transitions)
+    private static function guardTransition(string $transition, array $transitions)
     {
         if (!array_key_exists($transition, $transitions)) {
             throw new WorkflowException(

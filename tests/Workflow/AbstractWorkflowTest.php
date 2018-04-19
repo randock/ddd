@@ -11,14 +11,6 @@ use Randock\Ddd\Workflow\Exception\WorkflowException;
 class TestWorkflow extends AbstractWorkflow
 {
     /**
-     * TestWorkflow constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * @return array
      */
     public static function getTransitions(): array
@@ -63,14 +55,6 @@ class TestInvalidTransitionFromWorkflow extends AbstractWorkflow
 class TestInvalidTransitionToWorkflow extends AbstractWorkflow
 {
     /**
-     * TestInvalidTransitionToWorkflow constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * @return array
      */
     public static function getTransitions(): array
@@ -86,14 +70,6 @@ class TestInvalidTransitionToWorkflow extends AbstractWorkflow
 
 class TestInvalidTransitionArrayWorkflow extends AbstractWorkflow
 {
-    /**
-     * TestInvalidTransitionArrayWorkflow constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @return array
      */
@@ -187,7 +163,7 @@ class AbstractWorkflowTest extends TestCase
     /**
      * Test the constructor.
      */
-    public function testAppliyCorrect()
+    public function testApplyCorrect()
     {
         $testWorkflow = $this->getTestWorflow();
         $place = $testWorkflow->apply(self::PLACE_DRAFT, self::TRANSITION_TO_PAID);
@@ -197,7 +173,7 @@ class AbstractWorkflowTest extends TestCase
     /**
      * Test the constructor.
      */
-    public function testAppliyNoCorrect()
+    public function testApplyNoCorrect()
     {
         $testWorkflow = $this->getTestWorflow();
         $this->expectException(WorkflowException::class);
