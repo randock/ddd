@@ -9,9 +9,33 @@ use Randock\Ddd\Workflow\Exception\WorkflowException;
 abstract class AbstractWorkflow
 {
     /**
+     * AbstractWorkflow constructor.
+     */
+    public function __construct()
+    {
+        self::guardSchemaTransitions();
+    }
+
+    /**
      * @return array
      */
     abstract public static function getTransitions(): array;
+
+    /**
+     * @param string $place
+     * @param string $transition
+     *
+     * @return bool
+     */
+    public function can(string $place, string $transition)
+    {
+        $transitions = static::getTransitions();
+        self::guardTransition($transition, $transitions);
+
+        $from = (array) $transitions[$transition]['from'];
+
+        return in_array($place, $from);
+    }
 
     /**
      * @param string $place
@@ -21,30 +45,23 @@ abstract class AbstractWorkflow
      *
      * @return string
      */
-    public static function apply(string $place, string $transition)
+    public function apply(string $place, string $transition)
     {
-        $transitions = static::getTransitions();
-        static::guardSchemaTransitions($transitions);
-        static::guardTransition($transition, $transitions);
-
-        $from = (array) $transitions[$transition]['from'];
-        if (in_array($place, $from)) {
-            return $place;
+        if (!self::can($place, $transition)) {
+            throw new WorkflowException(
+                sprintf('The transition (%s) can not be applied from (%s)', $transition, $place)
+            );
         }
 
-        throw new WorkflowException(
-            sprintf('The transition (%s) can not be applied from (%s)', $transition, $place)
-        );
+        return $place;
     }
 
     /**
-     * @param array $transitions
-     *
      * @throws WorkflowException
      */
-    private static function guardSchemaTransitions(array $transitions)
+    private function guardSchemaTransitions()
     {
-        foreach ($transitions as $transition) {
+        foreach (static::getTransitions() as $transition) {
             if (!is_array($transition)) {
                 throw new WorkflowException(
                     sprintf('The transition (%s) has to be of type array', $transition)
@@ -67,7 +84,7 @@ abstract class AbstractWorkflow
      *
      * @throws WorkflowException
      */
-    private static function guardTransition(string $transition, array $transitions)
+    private function guardTransition(string $transition, array $transitions)
     {
         if (!array_key_exists($transition, $transitions)) {
             throw new WorkflowException(
