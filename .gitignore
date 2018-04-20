@@ -2,4 +2,4 @@
 vendor
 docker-compose.yml
 phpunit.xml
-build/
+/build/
