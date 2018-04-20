@@ -26,7 +26,7 @@
     "symfony/validator": "^4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.0",
-    "randock/build": "dev-symfony4"
+    "randock/build": "dev-symfony4",
+    "symfony/phpunit-bridge": "^4.0"
   }
 }
