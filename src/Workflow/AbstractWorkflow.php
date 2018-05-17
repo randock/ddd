@@ -9,6 +9,11 @@ use Randock\Ddd\Workflow\Exception\WorkflowException;
 abstract class AbstractWorkflow
 {
     /**
+     * @var string
+     */
+    private const METHOD_UPDATE = 'update';
+
+    /**
      * AbstractWorkflow constructor.
      */
     public function __construct()
@@ -22,44 +27,101 @@ abstract class AbstractWorkflow
     abstract public static function getTransitions(): array;
 
     /**
-     * @param string $place
+     * @return string
+     */
+    abstract public static function getProperty(): string;
+
+    /**
+     * @param mixed  $subject
      * @param string $transition
      *
      * @return bool
      */
-    public function can(string $place, string $transition)
+    public function can($subject, string $transition): bool
     {
+        self::guardApplyTransition($subject);
+
         $transitions = static::getTransitions();
         self::guardTransition($transition, $transitions);
 
         $from = (array) $transitions[$transition]['from'];
 
-        return in_array($place, $from);
+        return in_array($this->getPlace($subject), $from);
     }
 
     /**
-     * @param string $place
+     * @param mixed  $subject
      * @param string $transition
      *
      * @throws WorkflowException
-     *
-     * @return string
      */
-    public function apply(string $place, string $transition)
+    public function apply($subject, string $transition): void
     {
-        if (!self::can($place, $transition)) {
+        if (!self::can($subject, $transition)) {
             throw new WorkflowException(
-                sprintf('The transition (%s) can not be applied from (%s)', $transition, $place)
+                sprintf('The transition (%s) can not be applied from (%s)', $transition, $this->getPlace($subject))
             );
         }
 
-        return $place;
+        $transitions = static::getTransitions();
+        $subject->update(
+            [
+                static::getProperty() => $transitions[$transition]['to'],
+            ]
+        );
+    }
+
+    /**
+     * @param mixed $subject
+     *
+     * @throws WorkflowException
+     */
+    private function guardApplyTransition($subject): void
+    {
+        $reflectionClass = new \ReflectionClass(get_class($subject));
+        if (!$reflectionClass->hasProperty(static::getProperty())) {
+            throw new WorkflowException(
+                sprintf('there is no property (%s) in the object', static::getProperty())
+            );
+        }
+
+        if (!$reflectionClass->hasMethod($this->getMethodNameProperty())) {
+            throw new WorkflowException(
+                sprintf('there is no method get to (%s) property in the object', static::getProperty())
+            );
+        }
+
+        if (!$reflectionClass->hasMethod(self::METHOD_UPDATE)) {
+            throw new WorkflowException(
+                sprintf('there is no method (%s) in the object', self::METHOD_UPDATE)
+            );
+        }
+    }
+
+    /**
+     * @param mixed $subject
+     *
+     * @return string
+     */
+    private function getPlace($subject): string
+    {
+        $getMethodNameProperty = $this->getMethodNameProperty();
+
+        return $subject->$getMethodNameProperty();
+    }
+
+    /**
+     * @return string
+     */
+    private function getMethodNameProperty(): string
+    {
+        return sprintf('get%s', ucfirst(static::getProperty()));
     }
 
     /**
      * @throws WorkflowException
      */
-    private static function guardSchemaTransitions()
+    private function guardSchemaTransitions(): void
     {
         foreach (static::getTransitions() as $transition) {
             if (!is_array($transition)) {
@@ -84,7 +146,7 @@ abstract class AbstractWorkflow
      *
      * @throws WorkflowException
      */
-    private static function guardTransition(string $transition, array $transitions)
+    private function guardTransition(string $transition, array $transitions): void
     {
         if (!array_key_exists($transition, $transitions)) {
             throw new WorkflowException(
