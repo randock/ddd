@@ -52,10 +52,6 @@ class TestSubject
     }
 }
 
-class TestSubjectWhitoutStatusProperty
-{
-}
-
 class TestSubjectWhitoutStatusGetMethod
 {
     /**
@@ -252,17 +248,6 @@ class AbstractWorkflowTest extends TestCase
     {
         $this->expectException(WorkflowException::class);
         new TestInvalidTransitionArrayWorkflow();
-    }
-
-    /**
-     * Test the constructor.
-     */
-    public function testCanGuardApplyTransitionThereIsNotProperty()
-    {
-        $subject = new TestSubjectWhitoutStatusProperty();
-        $testWorkflow = $this->getTestWorflow();
-        $this->expectException(WorkflowException::class);
-        $testWorkflow->apply($subject, self::TRANSITION_TO_PAID);
     }
 
     /**
