@@ -72,7 +72,7 @@ abstract class AbstractWorkflow
     }
 
     /**
-     * @param mixed  $subject
+     * @param mixed $subject
      *
      * @throws WorkflowException
      */
@@ -99,7 +99,7 @@ abstract class AbstractWorkflow
     }
 
     /**
-     * @param mixed  $subject
+     * @param mixed $subject
      *
      * @return string
      */
