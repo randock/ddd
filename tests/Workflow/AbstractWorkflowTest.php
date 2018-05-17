@@ -8,6 +8,98 @@ use PHPUnit\Framework\TestCase;
 use Randock\Ddd\Workflow\AbstractWorkflow;
 use Randock\Ddd\Workflow\Exception\WorkflowException;
 
+class TestSubject
+{
+    /**
+     * @var string
+     */
+    private $status;
+
+    /**
+     * TestObject constructor.
+     *
+     * @param $status
+     */
+    public function __construct($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function update(array $data)
+    {
+        if (array_key_exists('status', $data)) {
+            $this->setStatus($data['status']);
+        }
+    }
+
+    /**
+     * @param string $status
+     */
+    private function setStatus(string $status)
+    {
+        $this->status = $status;
+    }
+}
+
+class TestSubjectWhitoutStatusProperty
+{
+}
+
+class TestSubjectWhitoutStatusGetMethod
+{
+    /**
+     * @var string
+     */
+    private $status;
+
+    /**
+     * TestObject constructor.
+     *
+     * @param $status
+     */
+    public function __construct($status)
+    {
+        $this->status = $status;
+    }
+}
+
+class TestSubjectWhitoutUpdateMethod
+{
+    /**
+     * @var string
+     */
+    private $status;
+
+    /**
+     * TestObject constructor.
+     *
+     * @param $status
+     */
+    public function __construct($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+}
+
 class TestWorkflow extends AbstractWorkflow
 {
     /**
@@ -25,6 +117,14 @@ class TestWorkflow extends AbstractWorkflow
                 'to' => 'cancelled',
             ],
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getProperty(): string
+    {
+        return 'status';
     }
 }
 
@@ -50,6 +150,14 @@ class TestInvalidTransitionFromWorkflow extends AbstractWorkflow
             ],
         ];
     }
+
+    /**
+     * @return string
+     */
+    public static function getProperty(): string
+    {
+        return 'status';
+    }
 }
 
 class TestInvalidTransitionToWorkflow extends AbstractWorkflow
@@ -66,6 +174,14 @@ class TestInvalidTransitionToWorkflow extends AbstractWorkflow
             ],
         ];
     }
+
+    /**
+     * @return string
+     */
+    public static function getProperty(): string
+    {
+        return 'status';
+    }
 }
 
 class TestInvalidTransitionArrayWorkflow extends AbstractWorkflow
@@ -78,6 +194,14 @@ class TestInvalidTransitionArrayWorkflow extends AbstractWorkflow
         return [
             'to_paid' => 5,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getProperty(): string
+    {
+        return 'status';
     }
 }
 
@@ -133,31 +257,45 @@ class AbstractWorkflowTest extends TestCase
     /**
      * Test the constructor.
      */
-    public function testCanTrue()
+    public function testCanGuardApplyTransitionThereIsNotProperty()
     {
-        $testWorkflow = $this->getTestWorflow();
-        $canToPaid = $testWorkflow->can(self::PLACE_DRAFT, self::TRANSITION_TO_PAID);
-        $this->assertTrue($canToPaid);
-    }
-
-    /**
-     * Test the constructor.
-     */
-    public function testCanFalse()
-    {
-        $testWorkflow = $this->getTestWorflow();
-        $canToPaid = $testWorkflow->can(self::PLACE_PAID, self::TRANSITION_TO_PAID);
-        $this->assertFalse($canToPaid);
-    }
-
-    /**
-     * Test the constructor.
-     */
-    public function testCanGuardTransition()
-    {
+        $subject = new TestSubjectWhitoutStatusProperty();
         $testWorkflow = $this->getTestWorflow();
         $this->expectException(WorkflowException::class);
-        $testWorkflow->can(self::PLACE_PAID, self::TRANSITION_INVALID);
+        $testWorkflow->apply($subject, self::TRANSITION_TO_PAID);
+    }
+
+    /**
+     * Test the constructor.
+     */
+    public function testCanGuardApplyTransitionThereIsNotGetPropertyMethod()
+    {
+        $subject = new TestSubjectWhitoutStatusGetMethod(self::PLACE_DRAFT);
+        $testWorkflow = $this->getTestWorflow();
+        $this->expectException(WorkflowException::class);
+        $testWorkflow->apply($subject, self::TRANSITION_TO_PAID);
+    }
+
+    /**
+     * Test the constructor.
+     */
+    public function testCanGuardApplyTransitionThereIsNotUpdateMethod()
+    {
+        $subject = new TestSubjectWhitoutUpdateMethod(self::PLACE_DRAFT);
+        $testWorkflow = $this->getTestWorflow();
+        $this->expectException(WorkflowException::class);
+        $testWorkflow->apply($subject, self::TRANSITION_TO_PAID);
+    }
+
+    /**
+     * Test the constructor.
+     */
+    public function testCanGuardTransitionInvalid()
+    {
+        $subject = new TestSubject(self::PLACE_DRAFT);
+        $testWorkflow = $this->getTestWorflow();
+        $this->expectException(WorkflowException::class);
+        $testWorkflow->apply($subject, self::TRANSITION_INVALID);
     }
 
     /**
@@ -165,9 +303,10 @@ class AbstractWorkflowTest extends TestCase
      */
     public function testApplyCorrect()
     {
+        $subject = new TestSubject(self::PLACE_DRAFT);
         $testWorkflow = $this->getTestWorflow();
-        $place = $testWorkflow->apply(self::PLACE_DRAFT, self::TRANSITION_TO_PAID);
-        $this->assertSame(self::PLACE_DRAFT, $place);
+        $testWorkflow->apply($subject, self::TRANSITION_TO_PAID);
+        $this->assertSame(self::PLACE_PAID, $subject->getStatus());
     }
 
     /**
@@ -175,9 +314,10 @@ class AbstractWorkflowTest extends TestCase
      */
     public function testApplyNoCorrect()
     {
+        $subject = new TestSubject(self::PLACE_PAID);
         $testWorkflow = $this->getTestWorflow();
         $this->expectException(WorkflowException::class);
-        $testWorkflow->apply(self::PLACE_PAID, self::TRANSITION_TO_PAID);
+        $testWorkflow->apply($subject, self::TRANSITION_TO_PAID);
     }
 
     private function getTestWorflow()
