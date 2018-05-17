@@ -37,7 +37,7 @@ abstract class AbstractWorkflow
      *
      * @return bool
      */
-    public function can($subject, string $transition) : bool
+    public function can($subject, string $transition): bool
     {
         self::guardApplyTransition($subject);
 
@@ -55,7 +55,7 @@ abstract class AbstractWorkflow
      *
      * @throws WorkflowException
      */
-    public function apply($subject, string $transition) : void
+    public function apply($subject, string $transition): void
     {
         if (!self::can($subject, $transition)) {
             throw new WorkflowException(
@@ -72,11 +72,11 @@ abstract class AbstractWorkflow
     }
 
     /**
-     * @param $subject
+     * @param mixed  $subject
      *
      * @throws WorkflowException
      */
-    private function guardApplyTransition($subject) : void
+    private function guardApplyTransition($subject): void
     {
         $reflectionClass = new \ReflectionClass(get_class($subject));
         if (!$reflectionClass->hasProperty(static::getProperty())) {
@@ -99,11 +99,11 @@ abstract class AbstractWorkflow
     }
 
     /**
-     * @param $subject
+     * @param mixed  $subject
      *
      * @return string
      */
-    private function getPlace($subject) : string
+    private function getPlace($subject): string
     {
         $getMethodNameProperty = $this->getMethodNameProperty();
 
@@ -113,7 +113,7 @@ abstract class AbstractWorkflow
     /**
      * @return string
      */
-    private function getMethodNameProperty() : string
+    private function getMethodNameProperty(): string
     {
         return sprintf('get%s', ucfirst(static::getProperty()));
     }
@@ -121,7 +121,7 @@ abstract class AbstractWorkflow
     /**
      * @throws WorkflowException
      */
-    private function guardSchemaTransitions() : void
+    private function guardSchemaTransitions(): void
     {
         foreach (static::getTransitions() as $transition) {
             if (!is_array($transition)) {
@@ -146,7 +146,7 @@ abstract class AbstractWorkflow
      *
      * @throws WorkflowException
      */
-    private function guardTransition(string $transition, array $transitions) : void
+    private function guardTransition(string $transition, array $transitions): void
     {
         if (!array_key_exists($transition, $transitions)) {
             throw new WorkflowException(
