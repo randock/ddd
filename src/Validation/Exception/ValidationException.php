@@ -4,28 +4,26 @@ declare(strict_types=1);
 
 namespace Randock\Ddd\Validation\Exception;
 
-use Randock\Ddd\Validation\ValidationError;
-
 class ValidationException extends \Exception
 {
     /**
-     * @var ValidationError[]
+     * @var array
      */
     private $errors;
 
     /**
      * ValidationException constructor.
      *
-     * @param ValidationError ...$errors
+     * @param array $errors
      */
-    public function __construct(ValidationError ...$errors)
+    public function __construct(array $errors)
     {
         $this->errors = $errors;
         parent::__construct();
     }
 
     /**
-     * @return ValidationError[]
+     * @return array
      */
     public function getErrors(): array
     {
