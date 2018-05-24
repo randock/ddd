@@ -79,11 +79,6 @@ abstract class AbstractWorkflow
     private function guardApplyTransition($subject): void
     {
         $reflectionClass = new \ReflectionClass(get_class($subject));
-        if (!$reflectionClass->hasProperty(static::getProperty())) {
-            throw new WorkflowException(
-                sprintf('there is no property (%s) in the object', static::getProperty())
-            );
-        }
 
         if (!$reflectionClass->hasMethod($this->getMethodNameProperty())) {
             throw new WorkflowException(
