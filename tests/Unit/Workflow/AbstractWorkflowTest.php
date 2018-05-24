@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Randock\VignetteApi\Unit\Domain\Order\Model;
+namespace Tests\Randock\Ddd\Unit\Workflow;
 
 use PHPUnit\Framework\TestCase;
 use Randock\Ddd\Workflow\AbstractWorkflow;
