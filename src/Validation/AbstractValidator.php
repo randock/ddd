@@ -36,10 +36,13 @@ abstract class AbstractValidator
             if (array_key_exists($field, $data)) {
                 if ($constraint instanceof self) {
                     $dataArray = self::transformDataToArray($data[$field]);
+                    // $dataArray can return an associative array (['key' => $value, ...]),
+                    // or an array with numeric index ([$item1, $item2, ...])
                     if (isset($dataArray[0])) {
-                        foreach ($dataArray as $item) {
+                        $countDataArray = count($dataArray);
+                        for ($i = 0; $i < $countDataArray; ++$i) {
                             $errorsAbstractValidatorConstraint = $constraint->validateModel(
-                                self::transformDataToArray($item)
+                                self::transformDataToArray($dataArray[$i])
                             );
                             if (count($errorsAbstractValidatorConstraint) > 0) {
                                 $errors[$field][] = $errorsAbstractValidatorConstraint;
