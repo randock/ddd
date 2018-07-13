@@ -29,4 +29,16 @@ class ValidationException extends \Exception
     {
         return $this->errors;
     }
+
+    /**
+     * @param array $errors
+     *
+     * @return ValidationException
+     */
+    public function setErrors(array $errors): self
+    {
+        $this->errors = $errors;
+
+        return $this;
+    }
 }
