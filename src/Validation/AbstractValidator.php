@@ -20,9 +20,20 @@ abstract class AbstractValidator
     abstract public static function getConstraints(): array;
 
     /**
+     * @param array $array
+     *
+     * @return bool
+     */
+    public static function allKeysNumeric(array $array): bool
+    {
+        return count(array_filter(array_keys($array), 'is_string')) === 0;
+    }
+
+    /**
      * @param array $data
      *
      * @return array
+     * @throws DtoToArrayException
      */
     public static function validateModel(array $data): array
     {
@@ -38,14 +49,13 @@ abstract class AbstractValidator
                     $dataArray = self::transformDataToArray($data[$field]);
                     // $dataArray can return an associative array (['key' => $value, ...]),
                     // or an array with numeric index ([$item1, $item2, ...])
-                    if (isset($dataArray[0])) {
-                        $countDataArray = count($dataArray);
-                        for ($i = 0; $i < $countDataArray; ++$i) {
+                    if (self::allKeysNumeric($dataArray)) {
+                        foreach ($dataArray as $i => $value) {
                             $errorsAbstractValidatorConstraint = $constraint->validateModel(
-                                self::transformDataToArray($dataArray[$i])
+                                self::transformDataToArray($value)
                             );
                             if (count($errorsAbstractValidatorConstraint) > 0) {
-                                $errors[$field][] = $errorsAbstractValidatorConstraint;
+                                $errors[$field][$i] = $errorsAbstractValidatorConstraint;
                             }
                         }
                     } else {
@@ -78,6 +88,7 @@ abstract class AbstractValidator
      * @param array $data
      *
      * @throws ValidationException
+     * @throws DtoToArrayException
      */
     public static function guard(array $data)
     {
