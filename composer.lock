@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "f80db2b33e78227c2c67ed00db08a983",
@@ -99,17 +99,75 @@
             "time": "2017-11-30T09:17:20+00:00"
         },
         {
-            "name": "symfony/polyfill-mbstring",
-            "version": "v1.7.0",
+            "name": "symfony/polyfill-ctype",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "82ebae02209c21113908c229e9883c419720738a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
-                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
+                "reference": "82ebae02209c21113908c229e9883c419720738a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-ctype": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.11-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                },
+                {
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
+                }
+            ],
+            "description": "Symfony polyfill for ctype functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "ctype",
+                "polyfill",
+                "portable"
+            ],
+            "time": "2019-02-06T07:57:58+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "fe5e94c604826c35a32fa832f35bd036b6799609"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fe5e94c604826c35a32fa832f35bd036b6799609",
+                "reference": "fe5e94c604826c35a32fa832f35bd036b6799609",
                 "shasum": ""
             },
             "require": {
@@ -121,7 +179,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -155,57 +213,38 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-01-30T19:27:44+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
-            "name": "symfony/translation",
-            "version": "v4.0.8",
+            "name": "symfony/translation-contracts",
+            "version": "v1.1.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/translation.git",
-                "reference": "e20a9b7f9f62cb33a11638b345c248e7d510c938"
+                "url": "https://github.com/symfony/translation-contracts.git",
+                "reference": "cb4b18ad7b92a26e83b65dde940fab78339e6f3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/e20a9b7f9f62cb33a11638b345c248e7d510c938",
-                "reference": "e20a9b7f9f62cb33a11638b345c248e7d510c938",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/cb4b18ad7b92a26e83b65dde940fab78339e6f3c",
+                "reference": "cb4b18ad7b92a26e83b65dde940fab78339e6f3c",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3",
-                "symfony/polyfill-mbstring": "~1.0"
-            },
-            "conflict": {
-                "symfony/config": "<3.4",
-                "symfony/dependency-injection": "<3.4",
-                "symfony/yaml": "<3.4"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/config": "~3.4|~4.0",
-                "symfony/dependency-injection": "~3.4|~4.0",
-                "symfony/finder": "~2.8|~3.0|~4.0",
-                "symfony/intl": "~3.4|~4.0",
-                "symfony/yaml": "~3.4|~4.0"
+                "php": "^7.1.3"
             },
             "suggest": {
-                "psr/log": "To use logging capability in translator",
-                "symfony/config": "",
-                "symfony/yaml": ""
+                "symfony/translation-implementation": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Symfony\\Component\\Translation\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Symfony\\Contracts\\Translation\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -213,41 +252,52 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
                 },
                 {
                     "name": "Symfony Community",
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Translation Component",
+            "description": "Generic abstractions related to translation",
             "homepage": "https://symfony.com",
-            "time": "2018-02-22T10:50:29+00:00"
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "time": "2019-06-13T11:15:36+00:00"
         },
         {
             "name": "symfony/validator",
-            "version": "v4.0.8",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "b9546d78133d6af199ac6625d0d587a2d804f967"
+                "reference": "ea74d2843fd8a9f2d4800136c985d13da586a405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/b9546d78133d6af199ac6625d0d587a2d804f967",
-                "reference": "b9546d78133d6af199ac6625d0d587a2d804f967",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/ea74d2843fd8a9f2d4800136c985d13da586a405",
+                "reference": "ea74d2843fd8a9f2d4800136c985d13da586a405",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1.3",
+                "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-mbstring": "~1.0",
-                "symfony/translation": "~3.4|~4.0"
+                "symfony/translation-contracts": "^1.1"
             },
             "conflict": {
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0",
                 "symfony/dependency-injection": "<3.4",
                 "symfony/http-kernel": "<3.4",
+                "symfony/intl": "<4.3",
+                "symfony/translation": "<4.2",
                 "symfony/yaml": "<3.4"
             },
             "require-dev": {
@@ -258,10 +308,13 @@
                 "symfony/config": "~3.4|~4.0",
                 "symfony/dependency-injection": "~3.4|~4.0",
                 "symfony/expression-language": "~3.4|~4.0",
-                "symfony/http-foundation": "~3.4|~4.0",
+                "symfony/http-client": "^4.3",
+                "symfony/http-foundation": "~4.1",
                 "symfony/http-kernel": "~3.4|~4.0",
-                "symfony/intl": "~3.4|~4.0",
+                "symfony/intl": "^4.3",
                 "symfony/property-access": "~3.4|~4.0",
+                "symfony/property-info": "~3.4|~4.0",
+                "symfony/translation": "~4.2",
                 "symfony/var-dumper": "~3.4|~4.0",
                 "symfony/yaml": "~3.4|~4.0"
             },
@@ -275,12 +328,14 @@
                 "symfony/http-foundation": "",
                 "symfony/intl": "",
                 "symfony/property-access": "For accessing properties within comparison constraints",
+                "symfony/property-info": "To automatically add NotNull and Type constraints",
+                "symfony/translation": "For translating validation errors.",
                 "symfony/yaml": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -307,7 +362,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2018-04-06T07:35:43+00:00"
+            "time": "2019-06-03T20:27:40+00:00"
         }
     ],
     "packages-dev": [
@@ -317,12 +372,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/randock/build.git",
-                "reference": "1e17a13b7cfbb76128726b4e56978b64f90323d6"
+                "reference": "fef2744b5bab7304d692988e12d06faf8313c6f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/randock/build/zipball/1e17a13b7cfbb76128726b4e56978b64f90323d6",
-                "reference": "1e17a13b7cfbb76128726b4e56978b64f90323d6",
+                "url": "https://api.github.com/repos/randock/build/zipball/fef2744b5bab7304d692988e12d06faf8313c6f1",
+                "reference": "fef2744b5bab7304d692988e12d06faf8313c6f1",
                 "shasum": ""
             },
             "type": "library",
@@ -331,30 +386,29 @@
                 "MIT"
             ],
             "description": "Randock Build",
-            "time": "2018-03-31T22:21:53+00:00"
+            "time": "2019-06-11T13:37:05+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.0.8",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "e82f3f46384482f2a7dab5f00c58a36b9726bde9"
+                "reference": "4c02cf116370da969b88bb607563f614e2450f73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/e82f3f46384482f2a7dab5f00c58a36b9726bde9",
-                "reference": "e82f3f46384482f2a7dab5f00c58a36b9726bde9",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/4c02cf116370da969b88bb607563f614e2450f73",
+                "reference": "4c02cf116370da969b88bb607563f614e2450f73",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.5.9"
             },
             "conflict": {
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
             },
             "suggest": {
-                "ext-zip": "Zip support is required when using bin/simple-phpunit",
                 "symfony/debug": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
             },
             "bin": [
@@ -363,7 +417,7 @@
             "type": "symfony-bridge",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.3-dev"
                 },
                 "thanks": {
                     "name": "phpunit/phpunit",
@@ -397,7 +451,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-04-04T18:24:59+00:00"
+            "time": "2019-05-30T08:57:55+00:00"
         }
     ],
     "aliases": [],

@@ -43,7 +43,7 @@ class AbstractValidationTest extends TestCase
             ]
         );
 
-        $this->assertSame(count($errors), 0);
+        $this->assertSame(\count($errors), 0);
     }
 
     public function testValidateModelInvalidName()
@@ -54,7 +54,7 @@ class AbstractValidationTest extends TestCase
             ]
         );
 
-        $this->assertSame(count($errors), 1);
+        $this->assertSame(\count($errors), 1);
         $this->assertArrayHasKey(TestValidator::FIELD_NAME, $errors);
         $this->assertSame($errors[TestValidator::FIELD_NAME], TestValidator::ERROR_NAME);
     }
@@ -69,7 +69,7 @@ class AbstractValidationTest extends TestCase
             ]
         );
 
-        $this->assertSame(count($errors), 0);
+        $this->assertSame(\count($errors), 0);
     }
 
     public function testValidateModelCustomConstraintAbstractValidatorInvalid()
@@ -82,7 +82,7 @@ class AbstractValidationTest extends TestCase
             ]
         );
 
-        $this->assertSame(count($errors), 1);
+        $this->assertSame(\count($errors), 1);
         $this->assertArrayHasKey(TestValidator::FIELD_USER, $errors);
         $this->assertArrayHasKey(UserValidator::FIELD_USER_PHONE, $errors[TestValidator::FIELD_USER]);
         $this->assertSame(UserValidator::ERROR_USER_PHONE, $errors[TestValidator::FIELD_USER][UserValidator::FIELD_USER_PHONE]);
@@ -100,6 +100,9 @@ class AbstractValidationTest extends TestCase
         );
     }
 
+    /**
+     * @throws DtoToArrayException
+     */
     public function testValidateModelArrayConstraint()
     {
         $users = [
@@ -116,11 +119,11 @@ class AbstractValidationTest extends TestCase
                 TestValidator::FIELD_USERS => $users,
             ]
         );
-        $this->assertSame(count($errors), 1);
+        $this->assertSame(\count($errors), 1);
         $this->assertArrayHasKey(TestValidator::FIELD_USERS, $errors);
-        $this->assertTrue(isset($errors[TestValidator::FIELD_USERS][0]));
-        $this->assertArrayHasKey(UserValidator::FIELD_USER_PHONE, $errors[TestValidator::FIELD_USERS][0]);
-        $this->assertSame(UserValidator::ERROR_USER_PHONE, $errors[TestValidator::FIELD_USERS][0][UserValidator::FIELD_USER_PHONE]);
+        $this->assertTrue(isset($errors[TestValidator::FIELD_USERS][1]));
+        $this->assertArrayHasKey(UserValidator::FIELD_USER_PHONE, $errors[TestValidator::FIELD_USERS][1]);
+        $this->assertSame(UserValidator::ERROR_USER_PHONE, $errors[TestValidator::FIELD_USERS][1][UserValidator::FIELD_USER_PHONE]);
     }
 
     public function testGuardWhitoutErrors()

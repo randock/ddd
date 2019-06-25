@@ -27,6 +27,6 @@ class DtoToArrayException extends \Exception
      */
     protected function errorMessage(): string
     {
-        return sprintf('object (%s) must implement the interface DtoToArrayInterface', $this->className);
+        return \sprintf('object (%s) must implement the interface DtoToArrayInterface', $this->className);
     }
 }

@@ -46,7 +46,7 @@ abstract class AbstractWorkflow
 
         $from = (array) $transitions[$transition]['from'];
 
-        return in_array($this->getPlace($subject), $from);
+        return \in_array($this->getPlace($subject), $from);
     }
 
     /**
@@ -59,7 +59,7 @@ abstract class AbstractWorkflow
     {
         if (!self::can($subject, $transition)) {
             throw new WorkflowException(
-                sprintf('The transition (%s) can not be applied from (%s)', $transition, $this->getPlace($subject))
+                \sprintf('The transition (%s) can not be applied from (%s)', $transition, $this->getPlace($subject))
             );
         }
 
@@ -78,17 +78,17 @@ abstract class AbstractWorkflow
      */
     private function guardApplyTransition($subject): void
     {
-        $reflectionClass = new \ReflectionClass(get_class($subject));
+        $reflectionClass = new \ReflectionClass(\get_class($subject));
 
         if (!$reflectionClass->hasMethod($this->getMethodNameProperty())) {
             throw new WorkflowException(
-                sprintf('there is no method get to (%s) property in the object', static::getProperty())
+                \sprintf('there is no method get to (%s) property in the object', static::getProperty())
             );
         }
 
         if (!$reflectionClass->hasMethod(self::METHOD_UPDATE)) {
             throw new WorkflowException(
-                sprintf('there is no method (%s) in the object', self::METHOD_UPDATE)
+                \sprintf('there is no method (%s) in the object', self::METHOD_UPDATE)
             );
         }
     }
@@ -110,7 +110,7 @@ abstract class AbstractWorkflow
      */
     private function getMethodNameProperty(): string
     {
-        return sprintf('get%s', ucfirst(static::getProperty()));
+        return \sprintf('get%s', \ucfirst(static::getProperty()));
     }
 
     /**
@@ -119,17 +119,17 @@ abstract class AbstractWorkflow
     private function guardSchemaTransitions(): void
     {
         foreach (static::getTransitions() as $transition) {
-            if (!is_array($transition)) {
+            if (!\is_array($transition)) {
                 throw new WorkflowException(
-                    sprintf('The transition (%s) has to be of type array', $transition)
+                    \sprintf('The transition (%s) has to be of type array', $transition)
                 );
             }
 
-            if (!array_key_exists('from', $transition)) {
+            if (!\array_key_exists('from', $transition)) {
                 throw new WorkflowException('One of the transitions does not contain the index "from"');
             }
 
-            if (!array_key_exists('to', $transition)) {
+            if (!\array_key_exists('to', $transition)) {
                 throw new WorkflowException('One of the transitions does not contain the index "to"');
             }
         }
@@ -143,9 +143,9 @@ abstract class AbstractWorkflow
      */
     private function guardTransition(string $transition, array $transitions): void
     {
-        if (!array_key_exists($transition, $transitions)) {
+        if (!\array_key_exists($transition, $transitions)) {
             throw new WorkflowException(
-                sprintf('The transition (%s) does not exist', $transition)
+                \sprintf('The transition (%s) does not exist', $transition)
             );
         }
     }
