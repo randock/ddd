@@ -38,7 +38,7 @@ class TestSubject
      */
     public function update(array $data)
     {
-        if (array_key_exists('status', $data)) {
+        if (\array_key_exists('status', $data)) {
             $this->setStatus($data['status']);
         }
     }

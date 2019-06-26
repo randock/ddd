@@ -20,7 +20,19 @@ abstract class AbstractValidator
     abstract public static function getConstraints(): array;
 
     /**
+     * @param array $array
+     *
+     * @return bool
+     */
+    public static function allKeysNumeric(array $array): bool
+    {
+        return 0 === \count(\array_filter(\array_keys($array), 'is_string'));
+    }
+
+    /**
      * @param array $data
+     *
+     * @throws DtoToArrayException
      *
      * @return array
      */
@@ -33,24 +45,23 @@ abstract class AbstractValidator
 
         // loop fields and constraints and validate them
         foreach ($constraints as $field => $constraint) {
-            if (array_key_exists($field, $data)) {
+            if (\array_key_exists($field, $data)) {
                 if ($constraint instanceof self) {
                     $dataArray = self::transformDataToArray($data[$field]);
                     // $dataArray can return an associative array (['key' => $value, ...]),
                     // or an array with numeric index ([$item1, $item2, ...])
-                    if (isset($dataArray[0])) {
-                        $countDataArray = count($dataArray);
-                        for ($i = 0; $i < $countDataArray; ++$i) {
+                    if (self::allKeysNumeric($dataArray)) {
+                        foreach ($dataArray as $i => $value) {
                             $errorsAbstractValidatorConstraint = $constraint->validateModel(
-                                self::transformDataToArray($dataArray[$i])
+                                self::transformDataToArray($value)
                             );
-                            if (count($errorsAbstractValidatorConstraint) > 0) {
-                                $errors[$field][] = $errorsAbstractValidatorConstraint;
+                            if (\count($errorsAbstractValidatorConstraint) > 0) {
+                                $errors[$field][$i] = $errorsAbstractValidatorConstraint;
                             }
                         }
                     } else {
                         $errorsAbstractValidatorConstraint = $constraint->validateModel($dataArray);
-                        if (count($errorsAbstractValidatorConstraint) > 0) {
+                        if (\count($errorsAbstractValidatorConstraint) > 0) {
                             $errors[$field] = $errorsAbstractValidatorConstraint;
                         }
                     }
@@ -61,7 +72,7 @@ abstract class AbstractValidator
                         $constraint
                     );
 
-                    if (count($errorList) > 0) {
+                    if (\count($errorList) > 0) {
                         /** @var ConstraintViolation $error */
                         foreach ($errorList->getIterator() as $error) {
                             $errors[$field] = $error->getMessage();
@@ -78,11 +89,12 @@ abstract class AbstractValidator
      * @param array $data
      *
      * @throws ValidationException
+     * @throws DtoToArrayException
      */
     public static function guard(array $data)
     {
         $errors = static::validateModel($data);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new ValidationException($errors);
         }
     }
@@ -104,7 +116,7 @@ abstract class AbstractValidator
      */
     private static function transformDataToArray($item)
     {
-        if (is_array($item)) {
+        if (\is_array($item)) {
             return $item;
         }
 
@@ -112,6 +124,6 @@ abstract class AbstractValidator
             return $item->toArray();
         }
 
-        throw new DtoToArrayException(get_class($item));
+        throw new DtoToArrayException(\get_class($item));
     }
 }

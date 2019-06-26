@@ -21,7 +21,7 @@ class ValidationExceptionTest extends TestCase
             );
         } catch (ValidationException $exception) {
             $errors = $exception->getErrors();
-            $this->assertSame(count($errors), 1);
+            $this->assertSame(\count($errors), 1);
         }
     }
 }
