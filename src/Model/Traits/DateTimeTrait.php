@@ -22,7 +22,7 @@ trait DateTimeTrait
     protected $deletedAt;
 
     /**
-     * @return \DateTime
+     * @return \DateTimeImmutable
      */
     public function getCreatedAt(): \DateTimeImmutable
     {
