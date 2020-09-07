@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Randock\Ddd\Validation;
 
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -15,12 +16,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 abstract class AbstractValidator
 {
     /**
-     * @return array
+     * @return Constraint[]|self[]
      */
     abstract public static function getConstraints(): array;
 
     /**
-     * @param array $array
+     * @param mixed[] $array
      *
      * @return bool
      */
@@ -30,11 +31,12 @@ abstract class AbstractValidator
     }
 
     /**
-     * @param array $data
+     * @param mixed[] $data
      *
      * @throws DtoToArrayException
+     * @throws \Exception
      *
-     * @return array
+     * @return mixed[]
      */
     public static function validateModel(array $data): array
     {
@@ -52,7 +54,7 @@ abstract class AbstractValidator
                     // or an array with numeric index ([$item1, $item2, ...])
                     if (self::allKeysNumeric($dataArray)) {
                         foreach ($dataArray as $i => $value) {
-                            $errorsAbstractValidatorConstraint = $constraint->validateModel(
+                            $errorsAbstractValidatorConstraint = $constraint::validateModel(
                                 self::transformDataToArray($value)
                             );
                             if (\count($errorsAbstractValidatorConstraint) > 0) {
@@ -60,13 +62,13 @@ abstract class AbstractValidator
                             }
                         }
                     } else {
-                        $errorsAbstractValidatorConstraint = $constraint->validateModel($dataArray);
+                        $errorsAbstractValidatorConstraint = $constraint::validateModel($dataArray);
                         if (\count($errorsAbstractValidatorConstraint) > 0) {
                             $errors[$field] = $errorsAbstractValidatorConstraint;
                         }
                     }
                 } else {
-                    /** @var ConstraintViolationList $errorList */
+                    /** @var ConstraintViolationList|ConstraintViolation[] $errorList */
                     $errorList = $validator->validate(
                         $data[$field],
                         $constraint
@@ -86,12 +88,12 @@ abstract class AbstractValidator
     }
 
     /**
-     * @param array $data
+     * @param mixed[] $data
      *
      * @throws ValidationException
      * @throws DtoToArrayException
      */
-    public static function guard(array $data)
+    public static function guard(array $data): void
     {
         $errors = static::validateModel($data);
         if (\count($errors) > 0) {
@@ -112,9 +114,9 @@ abstract class AbstractValidator
      *
      * @throws DtoToArrayException
      *
-     * @return array
+     * @return mixed[]
      */
-    private static function transformDataToArray($item)
+    private static function transformDataToArray($item): array
     {
         if (\is_array($item)) {
             return $item;

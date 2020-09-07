@@ -15,14 +15,16 @@ abstract class AbstractWorkflow
 
     /**
      * AbstractWorkflow constructor.
+     *
+     * @throws WorkflowException
      */
     public function __construct()
     {
-        self::guardSchemaTransitions();
+        $this->guardSchemaTransitions();
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     abstract public static function getTransitions(): array;
 
@@ -35,14 +37,17 @@ abstract class AbstractWorkflow
      * @param mixed  $subject
      * @param string $transition
      *
+     * @throws WorkflowException
+     * @throws \ReflectionException
+     *
      * @return bool
      */
     public function can($subject, string $transition): bool
     {
-        self::guardApplyTransition($subject);
+        $this->guardApplyTransition($subject);
 
         $transitions = static::getTransitions();
-        self::guardTransition($transition, $transitions);
+        $this->guardTransition($transition, $transitions);
 
         $from = (array) $transitions[$transition]['from'];
 
@@ -54,10 +59,11 @@ abstract class AbstractWorkflow
      * @param string $transition
      *
      * @throws WorkflowException
+     * @throws \ReflectionException
      */
     public function apply($subject, string $transition): void
     {
-        if (!self::can($subject, $transition)) {
+        if (!$this->can($subject, $transition)) {
             throw new WorkflowException(
                 \sprintf('The transition (%s) can not be applied from (%s)', $transition, $this->getPlace($subject))
             );
@@ -75,6 +81,7 @@ abstract class AbstractWorkflow
      * @param mixed $subject
      *
      * @throws WorkflowException
+     * @throws \ReflectionException
      */
     private function guardApplyTransition($subject): void
     {
@@ -136,8 +143,8 @@ abstract class AbstractWorkflow
     }
 
     /**
-     * @param string $transition
-     * @param array  $transitions
+     * @param string  $transition
+     * @param mixed[] $transitions
      *
      * @throws WorkflowException
      */

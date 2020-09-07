@@ -23,7 +23,7 @@
   "prefer-stable": true,
   "require": {
     "bornfreee/tactician-domain-events": "^0.3.1",
-    "symfony/validator": "^4.0"
+    "symfony/validator": "^4.0|^5.0"
   },
   "require-dev": {
     "randock/build": "dev-symfony4",
