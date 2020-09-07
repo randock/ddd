@@ -7,7 +7,7 @@ namespace Randock\Ddd\Validation\Interfaces;
 interface DtoToArrayInterface
 {
     /**
-     * @return array
+     * @return mixed[]
      */
     public function toArray(): array;
 }

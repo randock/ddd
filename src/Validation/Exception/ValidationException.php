@@ -7,14 +7,14 @@ namespace Randock\Ddd\Validation\Exception;
 class ValidationException extends \Exception
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $errors;
 
     /**
      * ValidationException constructor.
      *
-     * @param array $errors
+     * @param mixed[] $errors
      */
     public function __construct(array $errors)
     {
@@ -23,7 +23,7 @@ class ValidationException extends \Exception
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getErrors(): array
     {
@@ -31,7 +31,7 @@ class ValidationException extends \Exception
     }
 
     /**
-     * @param array $errors
+     * @param mixed[] $errors
      *
      * @return ValidationException
      */
