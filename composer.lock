@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "167c0e7b9936d4fb9c8a8554a350faa8",
+    "content-hash": "053b9ef6f45a0450cc776309e1da22cf",
     "packages": [
         {
             "name": "bornfreee/tactician-domain-events",
@@ -385,12 +385,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/randock/build.git",
-                "reference": "92cfa652d9bdd141ef7feb335eae1a5ea81995cd"
+                "reference": "ff387a697a544518402b2b50bd71ab1862642b1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/randock/build/zipball/92cfa652d9bdd141ef7feb335eae1a5ea81995cd",
-                "reference": "92cfa652d9bdd141ef7feb335eae1a5ea81995cd",
+                "url": "https://api.github.com/repos/randock/build/zipball/ff387a697a544518402b2b50bd71ab1862642b1a",
+                "reference": "ff387a697a544518402b2b50bd71ab1862642b1a",
                 "shasum": ""
             },
             "type": "library",
@@ -399,7 +399,11 @@
                 "MIT"
             ],
             "description": "Randock Build",
-            "time": "2020-01-21T15:33:05+00:00"
+            "support": {
+                "issues": "https://github.com/randock/build/issues",
+                "source": "https://github.com/randock/build/tree/symfony4"
+            },
+            "time": "2021-01-07T10:47:55+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
@@ -478,5 +482,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2"
-    }
+    },
+    "plugin-api-version": "2.0.0"
 }
